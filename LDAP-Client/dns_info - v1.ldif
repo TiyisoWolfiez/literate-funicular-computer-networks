@@ -1,0 +1,9 @@
+dn: dc=za
+objectClass: top
+objectClass: ldapSubentry
+objectClass: subschema
+cn: schema
+attributeTypes: ( 1.3.6.1.4.1.88.1 NAME 'aRecord' EQUALITY caseIgnoreMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
+attributeTypes: ( 1.3.6.1.4.1.88.2 NAME 'nSRecord' EQUALITY caseIgnoreMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
+attributeTypes: ( 1.3.6.1.4.1.88.3 NAME 'mXRecord' EQUALITY caseIgnoreMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
+objectClasses: ( 1.3.6.1.4.1.88.4 NAME 'dnsDomain' SUP top STRUCTURAL MUST relativeDomainName MAY ( aRecord $ nSRecord $ mXRecord ) )
