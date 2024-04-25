@@ -30,15 +30,6 @@ def query_all_sld(client, sld = 'co'):
     print("----------------------------------------")
     for entry in entries:
         print(entry)
-
-        
-def query_all_org(client, org = USERNAME, sld = 'co'):
-    entries = client.query(f'o={org},ou={sld},dc=za', '(objectClass=*)')
-    print("\n\n----------------------------------------")
-    print(f"--- All (.{org}.{sld}) Organisations Entries: ---------")
-    print("----------------------------------------")
-    for entry in entries:
-        print(entry)
         
 
 def query_all_org_info(client, org = USERNAME, sld = 'co'):
@@ -49,12 +40,8 @@ def query_all_org_info(client, org = USERNAME, sld = 'co'):
     for entry in entries:
         print(entry)
         print("\n")
-        if 'aRecord' in entry:
-            print("A Record:", entry.aRecord)
-        if 'nSRecord' in entry:
-            print("NS Record:", entry.nSRecord)
-        if 'mXRecord' in entry:
-            print("MX Record:", entry.mXRecord)
+        for attr in entry.entry_attributes:
+            print(f"{attr}: {entry[attr]}")
         print("\n")
 
 
@@ -90,9 +77,13 @@ def add_org(client, org='uj', sld='ac'):
     dn = f'o={org},ou={sld},dc=za'
     object_class = ['top', 'organization']
     attributes = {
-        'o': org
+        'o': org,
+        'aRecord': '127.0.0.1',
+        'nSRecord': 'ns.example.com',
+        'mXRecord': 'mx.example.com'
     }
     client.conn.add(dn, object_class, attributes)
+    add_dns_info(client, org, sld)
 
 
 # Usage
@@ -132,13 +123,12 @@ def main():
     while True:
         print("\n1. Query TLD")
         print("2. Query SLD")
-        print("3. Query Organization")
-        print("4. Query Organization Info")
-        print("5. Add DNS Info")
-        print("6. Add TLD")
-        print("7. Add SLD")
-        print("8. Add Organization")
-        print("9. Exit")
+        print("3. Query Organization Info")
+        print("4. Add DNS Info")
+        print("5. Add TLD")
+        print("6. Add SLD")
+        print("7. Add Organization")
+        print("8. Exit")
         choice = input("Choose an option: ")
 
         if choice == '1':
@@ -150,32 +140,28 @@ def main():
         elif choice == '3':
             org = input("Enter organization: ")
             sld = input("Enter SLD: ")
-            query_all_org(client, org, sld)
-        elif choice == '4':
-            org = input("Enter organization: ")
-            sld = input("Enter SLD: ")
             query_all_org_info(client, org, sld)
-        elif choice == '5':
+        elif choice == '4':
             org = input("Enter organization: ")
             sld = input("Enter SLD: ")
             a_record = input("Enter A record: ")
             ns_record = input("Enter NS record: ")
             mx_record = input("Enter MX record: ")
             add_dns_info(client, org, sld, a_record, ns_record, mx_record)
-        elif choice == '6':
+        elif choice == '5':
             tld = input("Enter TLD: ")
             add_tld(client, tld)
             query_all_tld(client, tld)
-        elif choice == '7':
+        elif choice == '6':
             sld = input("Enter SLD: ")
             add_sld(client, sld)
             query_all_sld(client, sld)
-        elif choice == '8':
+        elif choice == '7':
             org = input("Enter organization: ")
             sld = input("Enter SLD: ")
             add_org(client, org, sld)
-            query_all_org(client, org, sld)
-        elif choice == '9':
+            query_all_org_info(client, org, sld)
+        elif choice == '8':
             break
         else:
             print("Invalid option. Please try again.")

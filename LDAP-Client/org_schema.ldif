@@ -1,0 +1,7 @@
+dn: o=uj,ou=ac,dc=za
+objectClass: top
+objectClass: org
+o: uj
+aRecord: 127.0.0.1
+nSRecord: ns.example.com
+mXRecord: mx.example.com
