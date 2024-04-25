@@ -64,6 +64,15 @@ def add_dns_info(client, org='tebogoyungmercykay', sld = 'co', a_record='127.0.0
     client.conn.modify(dn, changes)
 
 
+def add_tld(client, tld='za'):
+    dn = f'dc={tld}'
+    object_class = ['top', 'domain']
+    attributes = {
+        'dc': tld
+    }
+    client.conn.add(dn, object_class, attributes)
+    
+
 def add_sld(client, sld='gov'):
     dn = f'ou={sld},dc=za'
     object_class = ['top', 'organizationalUnit']
@@ -83,25 +92,86 @@ def add_org(client, org='uj', sld='ac'):
 
 
 # Usage
-client = LdapClient('ldap://localhost:389', 'cn=admin,dc=za', 'password')
-add_dns_info(client)
+client = LdapClient('ldap://localhost:389', 'cn=admin,dc=za', 'tebogo63729013')
+# add_dns_info(client)
 
-# Some Queries
-query_all_tld(client)
-query_all_sld(client)
-query_all_sld(client, 'ac')
-query_all_sld(client, 'gov')
-query_all_org(client)
-query_all_org(client, org='up', sld = 'ac')
-query_all_org_info(client)
-query_all_org_info(client, org='up', sld = 'ac')
+# # Some Queries
+# query_all_tld(client)
+# query_all_sld(client)
+# query_all_sld(client, 'ac')
+# query_all_sld(client, 'gov')
+# query_all_org(client)
+# query_all_org(client, org='up', sld = 'ac')
+# query_all_org_info(client)
+# query_all_org_info(client, org='up', sld = 'ac')
 
-# Add Entries
-add_sld(client, 'drink')
-add_org(client, 'sprite', 'drink')
-add_org(client, 'code', 'drink')
+# # Add Entries
+# add_sld(client, 'drink')
+# add_org(client, 'sprite', 'drink')
+# add_org(client, 'code', 'drink')
 
-print("-----------------------------------------")
-print("--- Testing Some More Inputs ------------")
-query_all_sld(client, 'drink')
+# print("-----------------------------------------")
+# print("--- Testing Some More Inputs ------------")
+# query_all_sld(client, 'drink')
 
+
+# # add_tld(client, 'com')
+
+def main():
+    # server = input("Enter LDAP server: ")
+    # user = input("Enter LDAP user: ")
+    # password = input("Enter LDAP password: ")
+    # client = LdapClient(server, user, password)
+    
+    client = LdapClient('ldap://localhost:389', 'cn=admin,dc=za', 'tebogo63729013')
+
+    while True:
+        print("\n1. Query TLD")
+        print("2. Query SLD")
+        print("3. Query Organization")
+        print("4. Query Organization Info")
+        print("5. Add DNS Info")
+        print("6. Add TLD")
+        print("7. Add SLD")
+        print("8. Add Organization")
+        print("9. Exit")
+        choice = input("Choose an option: ")
+
+        if choice == '1':
+            tld = input("Enter TLD: ")
+            query_all_tld(client, tld)
+        elif choice == '2':
+            sld = input("Enter SLD: ")
+            query_all_sld(client, sld)
+        elif choice == '3':
+            org = input("Enter organization: ")
+            sld = input("Enter SLD: ")
+            query_all_org(client, org, sld)
+        elif choice == '4':
+            org = input("Enter organization: ")
+            sld = input("Enter SLD: ")
+            query_all_org_info(client, org, sld)
+        elif choice == '5':
+            org = input("Enter organization: ")
+            sld = input("Enter SLD: ")
+            a_record = input("Enter A record: ")
+            ns_record = input("Enter NS record: ")
+            mx_record = input("Enter MX record: ")
+            add_dns_info(client, org, sld, a_record, ns_record, mx_record)
+        elif choice == '6':
+            tld = input("Enter TLD: ")
+            add_tld(client, tld)
+        elif choice == '7':
+            sld = input("Enter SLD: ")
+            add_sld(client, sld)
+        elif choice == '8':
+            org = input("Enter organization: ")
+            sld = input("Enter SLD: ")
+            add_org(client, org, sld)
+        elif choice == '9':
+            break
+        else:
+            print("Invalid option. Please try again.")
+
+if __name__ == "__main__":
+    main()
