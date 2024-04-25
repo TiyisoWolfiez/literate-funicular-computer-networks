@@ -164,13 +164,16 @@ def main():
         elif choice == '6':
             tld = input("Enter TLD: ")
             add_tld(client, tld)
+            query_all_tld(client, tld)
         elif choice == '7':
             sld = input("Enter SLD: ")
             add_sld(client, sld)
+            query_all_sld(client, sld)
         elif choice == '8':
             org = input("Enter organization: ")
             sld = input("Enter SLD: ")
             add_org(client, org, sld)
+            query_all_org(client, org, sld)
         elif choice == '9':
             break
         else:
