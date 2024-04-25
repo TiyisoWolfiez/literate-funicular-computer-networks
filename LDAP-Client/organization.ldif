@@ -1,0 +1,4 @@
+dn: o=uj,ou=ac,dc=za
+objectClass: top
+objectClass: organization
+o: uj
