@@ -126,7 +126,7 @@ def main():
     # password = input("Enter LDAP password: ")
     # client = LdapClient(server, user, password)
     
-    client = LdapClient('ldap://localhost:389', 'cn=admin,dc=za', TEMP_PASS)
+    client = LdapClient(f'ldap://localhost:{PORT}', 'cn=admin,dc=za', TEMP_PASS)
 
     while True:
         print("\n1. Query TLD")
