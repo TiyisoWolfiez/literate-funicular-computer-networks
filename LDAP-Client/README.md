@@ -2,7 +2,7 @@
 
 - sudo apt-get install phpldapadmin
 - sudo systemctl start apache2
-- sudo systemctl start apache2
+- sudo systemctl status apache2
 - sudo ufw allow 80
 - http://localhost/phpldapadmin
 
@@ -35,6 +35,7 @@ class LdapClient:
 ```
 
 # Creating A New User:
+
 To create credentials for an LDAP server, you typically need to add an entry for the admin user to the server's directory. This process can vary depending on the specific LDAP server software you're using, but here's a general outline of the steps you might need to take:
 
 1. **Create an LDIF file**: An LDIF (LDAP Data Interchange Format) file is a standard format for storing LDAP data. You can create an LDIF file to add a new entry to the LDAP directory. Here's an example of what this file might look like:
@@ -49,6 +50,7 @@ userPassword: tebogo63729013
 ```
 
 1.2. **Creating Command**:
+
 - `ldapadd -x -D "cn=admin,dc=tebogoyungmercykay,dc=co,dc=za" -w tebogo63729013 -f admin.ldif`
 
 1.2. **Searching Command**:
@@ -69,6 +71,7 @@ Please note that these are general instructions and might not work for your spec
 The LDIF (LDAP Data Interchange Format) entries you need to create for your LDAP directory based on the steps you provided would look something like this:
 
 1. **Create the TLD**:
+
 ```ldif
 dn: dc=za
 objectClass: top
@@ -77,6 +80,7 @@ dc: za
 ```
 
 2. **Create the second-level domains** (e.g., "co"):
+
 ```ldif
 dn: ou=co,dc=za
 objectClass: top
@@ -85,6 +89,7 @@ ou: co
 ```
 
 3. **Create the organizations** (e.g., "tebogoyungmercykay"):
+
 ```ldif
 dn: o=tebogoyungmercykay,ou=co,dc=za
 objectClass: top
@@ -93,6 +98,7 @@ o: tebogoyungmercykay
 ```
 
 4. **Add the DNS information** (e.g., for "up.ac.za"):
+
 ```ldif
 dn: dc=up,dc=ac,dc=za,o=tebogoyungmercykay,ou=co,dc=za
 objectClass: top
