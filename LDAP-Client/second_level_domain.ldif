@@ -1,0 +1,4 @@
+dn: ou=gov,dc=za
+objectClass: top
+objectClass: organizationalUnit
+ou: gov
