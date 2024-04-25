@@ -1,5 +1,8 @@
 import ldap3
 
+PORT = 389
+TEMP_PASS = 'tebogo63729013'
+
 class LdapClient:
     def __init__(self, server, user, password):
         self.server = ldap3.Server(server)
@@ -92,7 +95,7 @@ def add_org(client, org='uj', sld='ac'):
 
 
 # Usage
-client = LdapClient('ldap://localhost:389', 'cn=admin,dc=za', 'tebogo63729013')
+# client = LdapClient(f'ldap://localhost:{PORT}', 'cn=admin,dc=za', TEMP_PASS)
 # add_dns_info(client)
 
 # # Some Queries
@@ -123,7 +126,7 @@ def main():
     # password = input("Enter LDAP password: ")
     # client = LdapClient(server, user, password)
     
-    client = LdapClient('ldap://localhost:389', 'cn=admin,dc=za', 'tebogo63729013')
+    client = LdapClient('ldap://localhost:389', 'cn=admin,dc=za', TEMP_PASS)
 
     while True:
         print("\n1. Query TLD")
