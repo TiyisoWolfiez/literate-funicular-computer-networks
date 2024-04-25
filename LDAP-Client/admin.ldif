@@ -1,0 +1,6 @@
+dn: cn=admin,dc=tebogoyungmercykay,dc=co,dc=za
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+description: Networks LDAP administrator
+userPassword: password
