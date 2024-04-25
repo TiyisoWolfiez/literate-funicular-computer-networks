@@ -1,0 +1,4 @@
+dn: dc=za
+objectClass: top
+objectClass: domain
+dc: za
