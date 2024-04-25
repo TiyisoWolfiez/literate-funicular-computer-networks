@@ -2,6 +2,7 @@ import ldap3
 
 PORT = 389
 TEMP_PASS = 'tebogo63729013'
+USERNAME = 'tebogoyungmercykay'
 
 class LdapClient:
     def __init__(self, server, user, password):
@@ -31,7 +32,7 @@ def query_all_sld(client, sld = 'co'):
         print(entry)
 
         
-def query_all_org(client, org = 'tebogoyungmercykay', sld = 'co'):
+def query_all_org(client, org = USERNAME, sld = 'co'):
     entries = client.query(f'o={org},ou={sld},dc=za', '(objectClass=*)')
     print("\n\n----------------------------------------")
     print(f"--- All (.{org}.{sld}) Organisations Entries: ---------")
@@ -40,7 +41,7 @@ def query_all_org(client, org = 'tebogoyungmercykay', sld = 'co'):
         print(entry)
         
 
-def query_all_org_info(client, org = 'tebogoyungmercykay', sld = 'co'):
+def query_all_org_info(client, org = USERNAME, sld = 'co'):
     entries = client.query(f'o={org},ou={sld},dc=za', '(objectClass=dnsDomain)')
     print("\n\n----------------------------------------")
     print(f"--- All Info (.{org}.{sld}) Organisations Entries: ---------")
@@ -57,7 +58,7 @@ def query_all_org_info(client, org = 'tebogoyungmercykay', sld = 'co'):
         print("\n")
 
 
-def add_dns_info(client, org='tebogoyungmercykay', sld = 'co', a_record='127.0.0.1', ns_record='ns.example.com', mx_record='mx.example.com'):
+def add_dns_info(client, org=USERNAME, sld = 'co', a_record='127.0.0.1', ns_record='ns.example.com', mx_record='mx.example.com'):
     dn = f'o={org},ou={sld},dc=za'
     changes = {
         'aRecord': [(ldap3.MODIFY_REPLACE, [a_record])],
