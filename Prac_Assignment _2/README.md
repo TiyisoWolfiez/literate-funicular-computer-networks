@@ -14,7 +14,7 @@ However, this behavior can be modified using the `localecho` setting. Some serve
 For this assignment, the task is to create a specialized Telnet server. This server should work seamlessly with Telnet clients regardless of the `localecho` setting.
 It should echo characters that the user is supposed to see, ensuring a smooth user experience.
 
-# The Assignement
+# The Assignment
 
 Your task is to develop a program that reads a file containing questions and answers in a specific format. These questions are formatted with `?`, wrong answers with `-`, and correct answers with `+`. The program should listen on port 55555 for Telnet connections.
 
