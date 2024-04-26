@@ -1,6 +1,6 @@
 # Practical Assignment 2
 
-![prac2](https://github.com/TiyisoWolfiez/literate-funicular-computer-networks/assets/110611386/37a4f80c-f967-4791-8dc9-f017170921ae)
+![prac2](https://github.com/TiyisoWolfiez/literate-funicular-computer-networks/assets/110611386/1944e780-0b7f-4abc-a834-bd280a9681c8)
 
 ## Background
 A Telnet client is a tool available on all major operating systems for communication with servers. Typically,
