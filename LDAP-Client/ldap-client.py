@@ -33,7 +33,7 @@ def query_all_sld(client, sld = 'co'):
         
 
 def query_all_org_info(client, org = USERNAME, sld = 'co'):
-    entries = client.query(f'o={org},ou={sld},dc=za', '(objectClass=dnsDomain)')
+    entries = client.query(f'o={org},ou={sld},dc=za', '(objectClass=*)')
     print("\n\n----------------------------------------")
     print(f"--- All Info (.{org}.{sld}) Organisations Entries: ---------")
     print("----------------------------------------")
