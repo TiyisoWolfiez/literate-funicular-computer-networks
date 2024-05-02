@@ -77,7 +77,7 @@ username = os.getenv("SENDER_EMAIL")
 password = os.getenv("EMAIL_PASSWORD")
 receiver_email = os.getenv("RECEIVER_EMAIL")
 
-send_mail = True
+send_mail = False
 score = 4
 
 if send_mail:

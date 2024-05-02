@@ -1,10 +1,21 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import random
 import urllib.parse
-import smtplib
 import ssl
 import os
-from dotenv import load_dotenv, dotenv_values
+import socket
+import ssl
+import base64
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+host = os.getenv("HOST")
+port = os.getenv("PORT")
+username = os.getenv("SENDER_EMAIL")
+password = os.getenv("EMAIL_PASSWORD")
+receiver_email = os.getenv("RECEIVER_EMAIL")
 
 def load_questions(filename):
     questions = []
@@ -40,6 +51,71 @@ def load_questions(filename):
                 question['correct_multi'] = True
             questions.append(question)
     return questions
+
+def send_email(sender_email, receiver_email, host, port, password, score):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socket:
+        socket.connect((host, port))
+
+        ehlo_command = 'EHLO {}\r\n'.format(host)
+        socket.sendall(ehlo_command.encode())
+        response = socket.recv(1024)
+        print(response.decode())
+
+        if b'STARTTLS' in response:
+            starttls_command = 'STARTTLS\r\n'
+            socket.sendall(starttls_command.encode())
+            response = socket.recv(1024)
+            print(response.decode())
+
+            ssl_socket = ssl.wrap_socket(socket, ssl_version=ssl.PROTOCOL_TLSv1_2)
+
+            ehlo_command = 'EHLO {}\r\n'.format(host)
+            ssl_socket.sendall(ehlo_command.encode())
+            response = socket.recv(1024)
+            print(response.decode())
+
+            auth_command = 'AUTH LOGIN\r\n'
+            ssl_socket.sendall(auth_command.encode())
+            response = socket.recv(1024)
+            print(response.decode())
+
+            username_b64 = base64.b64encode(sender_email.encode()).decode()
+            password_b64 = base64.b64encode(password.encode()).decode()
+            ssl_socket.sendall((username_b64 + '\r\n').encode())
+            response = socket.recv(1024)
+            ssl_socket.sendall((password_b64 + '\r\n').encode())
+            response = socket.recv(1024)
+
+            mail_from_command = f"MAIL FROM: <{sender_email}>\r\n"
+            ssl_socket.sendall(mail_from_command.encode())
+            response = socket.recv(1024)
+            print(response.decode())
+
+            rcpt_to_command = f"RCPT TO: <{receiver_email}>\r\n"
+            ssl_socket.sendall(rcpt_to_command.encode())
+            response = socket.recv(1024)
+            print(response.decode())
+
+            data_command = 'DATA\r\n'
+            ssl_socket.sendall(data_command.encode())
+            response = socket.recv(1024)
+            print(response.decode())
+            
+            header = 'Subject: Your Score\r\n'
+            message = 'Your Score is: {}/3.\r\n'.format(score)
+            end_of_message = '\r\n.\r\n'
+            ssl_socket.sendall((header + message + end_of_message).encode())
+            response = socket.recv(1024)
+            print(response.decode())
+
+            quit_command = 'QUIT\r\n'
+            ssl_socket.sendall(quit_command.encode())
+            response = socket.recv(1024)
+            print(response.decode())
+
+            ssl_socket.close()
+
+        socket.close()
 
 class QuizHandler(BaseHTTPRequestHandler):
     questions = load_questions('questions.txt')
@@ -89,7 +165,7 @@ class QuizHandler(BaseHTTPRequestHandler):
         if self.path == '/submit_email':
             email_address = data.get('email', [None])[0]
             if email_address:
-                self.send_email(session, email_address)
+                self.send_email(session)
                 content = f"<html><head><title>Email Sent</title></head><body><h2>Email sent to {email_address} with your quiz results.</h2><a href='/'>Home</a></body></html>"
                 self._send_response(content)
             return
@@ -109,20 +185,17 @@ class QuizHandler(BaseHTTPRequestHandler):
             content = f"<html><head><title>Quiz Game</title></head><body><h2>{response}</h2><h2>Your score: {self.sessions[session]['score']}</h2><a href='/'>Next question</a></body></html>"
         self._send_response(content)
 
-    def send_email(self, session, email_address):
-        load_dotenv()
-        email_sender = os.getenv("SENDER_EMAIL")
-        email_password = os.getenv("EMAIL_PASSWORD")
-        message = f"From: {email_sender}\nTo: {email_address}\nSubject: Quiz Results\n\nQuiz completed! Your final score: {self.sessions[session]['score']}"
-        context = ssl.create_default_context()
-        with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as server:
-            server.login(email_sender, email_password)
-            server.sendmail(email_sender, email_address, message)
+    def send_email(self, session):
+        score = self.sessions[session]['score']
+        if score is not None and score >= 0:
+            send_email(username, receiver_email, host, port, password, score)
+        else:
+            print('Results will be released soon!')
 
 def run(server_class=HTTPServer, handler_class=QuizHandler, port=8080):
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
-    print('Starting httpd on port', port)
+    print('Starting Server on PORT: ', port)
     httpd.serve_forever()
 
 if __name__ == '__main__':
