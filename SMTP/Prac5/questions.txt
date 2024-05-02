@@ -1,0 +1,20 @@
+?What protocol is used for sending email over the Internet?
+-HTTPS
++SMTP
+-FTP
+-TCP
+-None of the above
+
+?Which of the following is a lossless image format?
+-JPEG
++PNG
+-GIF
+-BMP
+-None of the above
+
+?In computer security, what does 'AES' stand for?
+-Advanced Encryption Service
++Advanced Encryption Standard
+-Automatic Encryption System
+-Asymmetric Encryption Scheme
+-All of the above
