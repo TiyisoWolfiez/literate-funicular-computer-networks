@@ -1,6 +1,6 @@
 dn: o=uj,ou=ac,dc=za
 objectClass: top
-objectClass: org
+objectClass: objectClass: organization
 o: uj
 aRecord: 127.0.0.1
 nSRecord: ns.example.com

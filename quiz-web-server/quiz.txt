@@ -1,0 +1,17 @@
+?What protocol is commonly used for transferring files over the Internet?
++FTP
+-HTTP
+-SMTP
+-UDP
+
+?Which of the following is NOT an example of an application layer protocol?
+-SSH
++TCP
+-DNS
+-HTTP
+
+?Which protocol is used for sending and receiving emails?
+-FTP
++SMTP
+-SNMP
+-DHCP

@@ -33,7 +33,7 @@ def query_all_sld(client, sld = 'co'):
         
 
 def query_all_org_info(client, org = USERNAME, sld = 'co'):
-    entries = client.query(f'o={org},ou={sld},dc=za', '(objectClass=dnsDomain)')
+    entries = client.query(f'o={org},ou={sld},dc=za', '(objectClass=*)')
     print("\n\n----------------------------------------")
     print(f"--- All Info (.{org}.{sld}) Organisations Entries: ---------")
     print("----------------------------------------")
@@ -77,10 +77,7 @@ def add_org(client, org='uj', sld='ac'):
     dn = f'o={org},ou={sld},dc=za'
     object_class = ['top', 'organization']
     attributes = {
-        'o': org,
-        'aRecord': '127.0.0.1',
-        'nSRecord': 'ns.example.com',
-        'mXRecord': 'mx.example.com'
+        'o': org
     }
     client.conn.add(dn, object_class, attributes)
     add_dns_info(client, org, sld)
