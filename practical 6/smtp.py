@@ -74,4 +74,4 @@ def test_smtp_connection():
 
 if __name__ == "__main__":
     test_smtp_connection()
-    send_email("tiyisoh6@gmail.com", "vayd ssaa hdof hzfy", "u21598127@tuks.co.za", "Test Subject", "Test Body")
+    send_email("youremail@gmail", "YourPassword", "ReceiverEmail", "Test Subject", "Test Body")
