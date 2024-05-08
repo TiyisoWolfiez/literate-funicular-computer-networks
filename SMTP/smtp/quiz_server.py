@@ -94,10 +94,9 @@ def send_email(sender_email, receiver_email, host, port, password, score):
             print(response.decode())
             
             # Send email content
-            header = 'Subject: Your Score\r\n'
-            message = 'Your Score is: {}/3.\r\n'.format(score)
-            end_of_message = '\r\n.\r\n'
-            ssl_socket.sendall((header + message + end_of_message).encode())
+            subject = 'Subject: Quiz Score'
+            message = f'Your Score is: {score}/3'
+            ssl_socket.sendall((f'Subject: {subject}\r\n\r\n{message}\r\n.\r\n'.encode()))
             response = ssl_socket.recv(1024)
             print(response.decode())
 
