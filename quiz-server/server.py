@@ -3,7 +3,7 @@ import random
 import textwrap
 
 
-# Authors: Tshegofatso Mapheto (20735929) and Sello Selepe (20748052) 
+# Authors: Tshegofatso Mapheto and Sello Selepe
 # Function to wrap text to a specified width
 def wrap_text(text, width=80):
     return '\n'.join(textwrap.wrap(text, width))

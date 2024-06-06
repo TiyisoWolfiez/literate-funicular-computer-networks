@@ -1,6 +1,6 @@
 import socket
 
-# Authors: Tshegofatso Mapheto u20735929 and Sello Selepe u20748052
+# Authors: Tshegofatso Mapheto and Sello Selepe
 
 # Function to read Fibonacci numbers from file
 def read_fibonacci_numbers():
